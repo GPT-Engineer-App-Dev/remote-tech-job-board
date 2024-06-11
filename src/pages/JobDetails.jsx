@@ -1,21 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Container, Box, Text } from "@chakra-ui/react";
-
-const jobDetails = {
-  1: { title: "Product Manager", category: "Product", description: "Responsible for product planning and execution." },
-  2: { title: "UX Designer", category: "Design", description: "Focuses on user experience and design." },
-  3: { title: "Frontend Engineer", category: "Engineering", description: "Develops the client-side of web applications." },
-  4: { title: "Backend Engineer", category: "Engineering", description: "Works on server-side logic and integration." },
-  5: { title: "Product Designer", category: "Design", description: "Designs products with a focus on user experience." },
-};
+import { useEvent } from "../integrations/supabase/index.js";
 
 const JobDetails = () => {
   const { jobId } = useParams();
-  const job = jobDetails[jobId];
+  const { data: job, isLoading, error } = useEvent(jobId);
 
-  if (!job) {
-    return <Text>Job not found</Text>;
-  }
+  if (isLoading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error loading job details</Text>;
+  if (!job) return <Text>Job not found</Text>;
 
   return (
     <Container centerContent maxW="container.md" py={10}>
