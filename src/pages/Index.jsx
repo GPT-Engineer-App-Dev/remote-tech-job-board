@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Container, VStack, HStack, Button, Box, Text, StackDivider } from "@chakra-ui/react";
-
-const jobs = [
-  { id: 1, title: "Product Manager", category: "Product" },
-  { id: 2, title: "UX Designer", category: "Design" },
-  { id: 3, title: "Frontend Engineer", category: "Engineering" },
-  { id: 4, title: "Backend Engineer", category: "Engineering" },
-  { id: 5, title: "Product Designer", category: "Design" },
-];
+import { useEvents } from "../integrations/supabase/index.js";
 
 const Index = () => {
   const [filter, setFilter] = useState("All");
+  const { data: jobs, isLoading, error } = useEvents();
+
+  if (isLoading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error loading jobs</Text>;
 
   const filteredJobs = filter === "All" ? jobs : jobs.filter(job => job.category === filter);
 
