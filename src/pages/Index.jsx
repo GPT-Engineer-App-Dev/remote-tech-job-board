@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Container, VStack, HStack, Button, Box, Text, StackDivider } from "@chakra-ui/react";
 
 const jobs = [
@@ -26,10 +27,12 @@ const Index = () => {
         </HStack>
         <VStack spacing={4} align="stretch" divider={<StackDivider borderColor="gray.200" />}>
           {filteredJobs.map(job => (
-            <Box key={job.id} p={5} shadow="md" borderWidth="1px" borderRadius="md">
-              <Text fontSize="xl">{job.title}</Text>
-              <Text mt={2} color="gray.500">{job.category}</Text>
-            </Box>
+            <Link to={`/job/${job.id}`} key={job.id}>
+              <Box p={5} shadow="md" borderWidth="1px" borderRadius="md">
+                <Text fontSize="xl">{job.title}</Text>
+                <Text mt={2} color="gray.500">{job.category}</Text>
+              </Box>
+            </Link>
           ))}
         </VStack>
       </VStack>
